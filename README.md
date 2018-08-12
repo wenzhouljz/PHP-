@@ -46,7 +46,6 @@ php?>
 ```
 >以上代码在执行中的时候，我们可以切换到```mysql```终端，利用```mysql```的```show processlist```查看```mysql```的连接详情，按照单例模式来说```$db1```和```$db2```它们使用只有一个```Pdo```类的实例化所以mysql的连接数算一个，```$db3,$db4,$db5```三个连接数，再加上```mysql```终端一个连接数一共是五个
 <br>
->```show processlist```的结果
 ![Alt text](./processlist.jpg)
 
 ### 1. 工厂模式【Factory】

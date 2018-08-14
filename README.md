@@ -83,38 +83,83 @@ var_dump($factory->eraser);
 
 ```php
 <?php
-abstract class BaseArea {
-    const PI = 3.14;
-    abstract public function area ($p1,$p2);
-    public function name () {
-        return static::class;
+namespace AbstractFactory;
+abstract class Type {
+    abstract public function mobile ();
+    abstract public function personalComputer ();
+}
+namespace Apple;
+use AbstractFactory\Type;
+use Apple\MobileSystem\iOS;
+use Apple\PCSystem\MacOSX;
+class ProductType extends Type {
+    public $company = 'Apple';
+    public function mobile () {
+        return new iOS;
+    }
+    public function personalComputer () {
+        return new MacOSX;
+    }
+}
+namespace Microsoft;
+use AbstractFactory\Type;
+use Microsoft\MobileSystem\WindowsPhone;
+use Microsoft\PCSystem\Windows;
+class ProductType extends Type {
+    public $company = 'Microsoft';
+    public function mobile () {
+        return new WindowsPhone;
+    }
+    public function personalComputer () {
+        return new Windows;
+    }
+}
+namespace IAbstractProduct;
+abstract class System {
+    abstract public function getVersion ();
+}
+namespace Apple\MobileSystem;
+use IAbstractProduct\System;
+class iOS extends System {
+    public function getVersion () {
+        return 'iOS 12';
+    }
+}
+namespace Microsoft\MobileSystem;
+use IAbstractProduct\System;
+class WindowsPhone extends System {
+    public function getVersion () {
+        return 'Windows 10 Mobile';
+    }
+}
+namespace Apple\PCSystem;
+use IAbstractProduct\System;
+class MacOSX extends System {
+    public function getVersion () {
+        return 'mac OS High Sierra 10.13.6';
+    }
+}
+namespace Microsoft\PCSystem;
+use IAbstractProduct\System;
+class Windows extends System {
+    public function getVersion () {
+        return 'Windows 10';
     }
 }
 
-class Circle extends BaseArea {
-    public function area ($p1,$p2) {
-        return $this->name() . ': ' . ((double) static::PI*$p1*$p2);
-    }
-}
+namespace Test;
+use Apple\ProductType as AppleProductType;
+use Microsoft\ProductType as MicrosoftProductType;
 
-class Triangle extends BaseArea {
-    public function area ($p1,$p2) {
-        return $this->name() . ': ' . ((double) $p1 * $p2 * 0.5);
-    }
-}
 
-class Rectangle extends BaseArea {
-    public function area ($p1,$p2) {
-        return $this->name() . ': ' . ((double) $p1 * $p2);
-    }
-}
-
-echo (new Circle)->area(1,2);// 椭圆公式 PI * a * b
-echo PHP_EOL;
-echo (new Circle)->area(2,2);// 圆公式 PI * r * r
-echo PHP_EOL;
-echo (new Triangle)->area(4,2);// 三角形公式 1/2 * a * h
-echo PHP_EOL;
-echo (new Rectangle)->area(4,2);// 矩形公式 l * w
-echo PHP_EOL;
+$apple = new AppleProductType;
+echo($apple->mobile()->getVersion());
+echo(PHP_EOL);
+echo($apple->personalComputer()->getVersion());
+echo(PHP_EOL);
+$microsoft = new MicrosoftProductType;
+echo($microsoft->mobile()->getVersion());
+echo(PHP_EOL);
+echo($microsoft->personalComputer()->getVersion());
+echo(PHP_EOL);
 ```

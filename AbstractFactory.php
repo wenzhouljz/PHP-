@@ -4,6 +4,7 @@
 * 不同的选择逻辑提供不同的构造工厂，而对于多个工厂而言需要一个统一的抽象工厂的一个标准，而不对多个工厂理会内部怎么生产产品的流程
 * 注意：这里和工厂方法的区别是：一系列（多个），而工厂方法只有一个。
 */
+// 定义获取产品的抽象类工厂类
 namespace AbstractFactory;
 abstract class Type {
     abstract public function mobile ();
@@ -13,7 +14,7 @@ namespace Apple;
 use AbstractFactory\Type;
 use Apple\MobileSystem\iOS;
 use Apple\PCSystem\MacOSX;
-class ProductType extends Type {
+class ProductType extends Type {// 抽象工厂类扩展的实体类
     public $company = 'Apple';
     public function mobile () {
         return new iOS;
@@ -26,7 +27,7 @@ namespace Microsoft;
 use AbstractFactory\Type;
 use Microsoft\MobileSystem\WindowsPhone;
 use Microsoft\PCSystem\Windows;
-class ProductType extends Type {
+class ProductType extends Type {// 抽象工厂类扩展的实体类
     public $company = 'Microsoft';
     public function mobile () {
         return new WindowsPhone;
@@ -36,33 +37,37 @@ class ProductType extends Type {
     }
 }
 namespace IAbstractProduct;
-abstract class System {
-    abstract public function getVersion ();
+interface System {
+    public function getVersion ();
 }
 namespace Apple\MobileSystem;
 use IAbstractProduct\System;
-class iOS extends System {
+
+class iOS implements System {
     public function getVersion () {
         return 'iOS 12';
     }
 }
 namespace Microsoft\MobileSystem;
 use IAbstractProduct\System;
-class WindowsPhone extends System {
+
+class WindowsPhone implements System {
     public function getVersion () {
         return 'Windows 10 Mobile';
     }
 }
 namespace Apple\PCSystem;
 use IAbstractProduct\System;
-class MacOSX extends System {
+
+class MacOSX implements System {
     public function getVersion () {
         return 'mac OS High Sierra 10.13.6';
     }
 }
 namespace Microsoft\PCSystem;
 use IAbstractProduct\System;
-class Windows extends System {
+
+class Windows implements System {
     public function getVersion () {
         return 'Windows 10';
     }
